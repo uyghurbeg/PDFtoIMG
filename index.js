@@ -5,6 +5,9 @@ const bodyParser = require('body-parser')
 const fs = require('fs-extra')
 var PDFImage = require("pdf-image").PDFImage;
 
+app.use(bodyParser.urlencoded({ extended: false }));
+
+
 app.get('/', (req, res) => {
     res.sendFile(__dirname+ '/index.html');
 })
@@ -19,7 +22,21 @@ app.post('/upload', (req, res) => {
     form.parse(req);
      
     form.on('file', (filename, file) => {
-        fs.copyFile(file.path, '/Users/mac/Downloads/PDFtoIMG/tmp')
+        var pdfImage = new PDFImage(file.path);
+        pdfImage.convertPage(0).then(function (imagePath) {
+        res.sendFile(imagePath)
+        });
+    });
+})
+
+app.get('/pdf', (req, res) => {
+   res.sendFile(__dirname + "/pdf.html")
+})
+
+app.post('/pdf', (req, res) => {
+    var pdfImage = new PDFImage(__dirname + "/tmp/" + req.body.filename + ".pdf");
+    pdfImage.convertPage(0).then(function (imagePath) {
+    res.sendFile(imagePath)
     });
 })
 
