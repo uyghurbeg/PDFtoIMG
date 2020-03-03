@@ -22,6 +22,10 @@ app.get('/upload', (req, res) => {
     res.sendFile(__dirname+ '/pdf.html');
 })
 
+//delete request
+app.delete('/clear', () => {
+    clearDir();
+})
 
 //post requests
 app.post('/upload', (req, res) => {
@@ -30,7 +34,6 @@ app.post('/upload', (req, res) => {
     form.on('file', (filename, file) => {
         var newPath = __dirname + '/tmp/' + file.name;
         console.log(newPath)
-        // Async with promises:
         fs.copy(file.path, newPath)
             .then(() => generateThumb(newPath, res));
     });
@@ -47,6 +50,18 @@ function generateThumb(filepath, res) {
         res.sendFile(imagePath);
     }, (err) => {
         res.send(err, 500);
+    });
+}
+
+function clearDir() {
+    var directory = __dirname + "/tmp"
+    fs.readdir(directory, (err, files) => {
+        if (err) throw err;
+        for (const file of files) {
+            fs.unlink(path.join(directory, file), err => {
+                if (err) throw err;
+            });
+        }
     });
 }
 
