@@ -19,6 +19,11 @@ app.get('/files', (req, res) => {
     res.sendFile(__dirname + '/files.html');
 })
 
+app.get('/thumbs', (req, res) => {
+    readDir()
+    res.sendFile(__dirname + '/files.html');
+})
+
 app.get('/upload', (req, res) => {
     res.sendFile(__dirname+ '/pdf.html');
 })
