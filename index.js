@@ -1,10 +1,10 @@
 const express = require('express')
 const app = express()
-const { IncomingForm } = require('formidable');
+const formidable = require('formidable')
 const bodyParser = require('body-parser')
 const fs = require('fs-extra')
 const path = require('path')
-const PDFImage = require("pdf-image").PDFImage;
+var PDFImage = require("pdf-image").PDFImage
 
 app.use(express.static('public'))
 app.use(bodyParser.urlencoded({ extended: false }));
@@ -29,11 +29,10 @@ app.delete('/clear', () => {
 
 //post requests
 app.post('/upload', (req, res) => {
-    const form = new IncomingForm();
+    var form = new formidable.IncomingForm()
     form.parse(req);
     form.on('file', (filename, file) => {
         var newPath = __dirname + '/tmp/' + file.name;
-        console.log(newPath)
         fs.copy(file.path, newPath)
             .then(() => generateThumb(newPath, res));
     });
@@ -46,7 +45,8 @@ app.post('/pdf', (req, res) => {
 
 function generateThumb(filepath, res) {
     var pdfImage = new PDFImage(filepath);
-    pdfImage.convertFile().then((imagePath) => {
+    pdfImage.convertPage(0)
+        .then((imagePath) => {
         res.sendFile(imagePath);
     }, (err) => {
         res.send(err, 500);
@@ -62,7 +62,7 @@ function clearDir() {
                 if (err) throw err;
             });
         }
-    });
+    })
 }
 
 app.listen(3000, (err) => {

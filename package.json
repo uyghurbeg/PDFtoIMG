@@ -14,7 +14,6 @@
     "express": "^4.17.1",
     "formidable": "^1.2.2",
     "fs-extra": "^8.1.0",
-    "graphicsmagick": "0.0.1",
     "nodemon": "^2.0.2",
     "path": "^0.12.7",
     "pdf-image": "^2.0.0"
