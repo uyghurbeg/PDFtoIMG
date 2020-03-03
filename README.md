@@ -7,3 +7,7 @@ thumb photo -> first page of a PDF file
 2. Just enter PDF File and and generate PDF thumb photo.
 
 All the PDF files must put into tmp folder.
+
+# Limitation
+On Windows not works as  expected.
+
