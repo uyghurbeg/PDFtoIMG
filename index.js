@@ -14,8 +14,9 @@ app.get('/', (req, res) => {
     res.sendFile(__dirname+ '/index.html');
 })
 
-app.get('/thumbs', (req, res) => {
-    res.sendFile(__dirname + '/pdf.html');
+app.get('/files', (req, res) => {
+    readDir()
+    res.sendFile(__dirname + '/files.html');
 })
 
 app.get('/upload', (req, res) => {
@@ -65,6 +66,29 @@ function clearDir() {
     })
 }
 
+function readDir() {
+    var directory = __dirname + "/tmp"
+    fs.readdir(directory, function (err, files) {
+        //handling error
+        if (err) {
+            return console.log('Unable to scan directory: ' + err);
+        }
+        //listing all files using forEach
+        var html
+        var htmlHead = '<!DOCTYPE html><html lang="en"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><title>Document</title></head><body><table>'
+        var htmlFoot = '</tr></table></body></html>'
+        var htmlBody = ''
+        files.forEach( (file) => {
+            htmlBody += '<tr><td>' + file + '</td></tr>'
+        })
+
+        html = htmlHead + htmlBody + htmlFoot;
+        fs.writeFileSync('files.html', html, () => {
+            console.log('hello')
+        })
+    })
+}
+        
 app.listen(process.env.PORT || 3000, function () {
     console.log("Express server listening on port %d in %s mode", this.address().port, app.settings.env);
 });

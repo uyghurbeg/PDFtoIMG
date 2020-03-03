@@ -139,12 +139,18 @@
                 <form action="/pdf" method="post">
                     <label>If you already put the PDF files in tmp folder and know the name of pdf file(without .pdf)</label>
                     <input type="text" name="filename">
-                    <button class="btn btn-success btn-success mt-3 btn-md"
+                    <button class="btn btn-success mt-3 btn-md"
                         type="submit">Get Thumb</button>
                 </form>
             </div>
             <label>If you want to upload pdf file, you can click this button</label>
-            <button class="btn btn-danger btn-success mt-3  btn-md"><a class="text-white" href="/upload">PDF Upload</a></button>
+            <button class="btn btn-success mt-3  btn-md"><a class="text-white" href="/upload">PDF Upload</a></button>
+            </div>
+            <div class="media text-muted pt-3">
+                <form action="/clear" method="delete">
+                    <button class="btn btn-success mt-3 btn-lg"><a href="/files">Get all the files</a></button>
+                    <button class="btn btn-danger mt-3 btn-lg" type="submit">Delete all the files</button>
+                </form>
             </div>
         </div>
     </main>

@@ -5,7 +5,8 @@
   "main": "index.js",
   "author" : "uyghurbeg",
   "scripts": {
-    "start" : "node index"
+    "start" : "node index",
+    "nodemon" : "nodemon"
   },
   "engines": {
     "node": "10.x"
