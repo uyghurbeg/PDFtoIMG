@@ -1,14 +1,15 @@
 {
   "name": "PDFtoIMG",
   "version": "1.0.0",
-  "description": "",
+  "description": "A small ap for generate thumbnail of a PDF file",
   "main": "index.js",
+  "author" : "uyghurbeg",
+
   "scripts": {
-    "nodemon": "nodemon",
     "start" : "node index"
   },
   "engines": {
-    "node": "12.x"
+    "node": "10.x"
   },
   "keywords": [],
   "author": "",
