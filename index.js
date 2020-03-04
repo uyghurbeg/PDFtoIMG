@@ -55,8 +55,7 @@ function generateThumb(filepath, res) {
     var pdfImage = new PDFImage(filepath);
     pdfImage.convertPage(0)
         .then((imagePath) => {
-        var fileName = path.basename(imagePath, '.pdf');
-        var desFile = __dirname + '/tmp/' + fileName + '.jpg';
+        var desFile = __dirname + '/tmp/' + path.basename(imagePath);
         fs.copy(imagePath, desFile)
         res.sendFile(imagePath);
     }, (err) => {
