@@ -41,7 +41,7 @@ app.post('/upload', (req, res) => {
     form.parse(req);
     form.on('file', (filename, file) => {
         var newPath = __dirname + '/tmp/' + file.name;
-        fs.copy(srcFile, desFile)
+        fs.copy(file.path, newPath)
             .then(() => generateThumb(newPath, res));
     });
 })
@@ -51,11 +51,12 @@ app.post('/pdf', (req, res) => {
     generateThumb(filepath, res);
 })
 
-function generateThumb(filepath, res) {
+function generateThumb(filepath, req, res) {
     var pdfImage = new PDFImage(filepath);
     pdfImage.convertPage(0)
         .then((imagePath) => {
-        var desFile = __dirname + '/tmp/' + req.body.filename + '.jpg';
+        var fileName = path.basename(imagePath, '.pdf');
+        var desFile = __dirname + '/tmp/' + fileName + '.jpg';
         fs.copy(imagePath, desFile)
         res.sendFile(imagePath);
     }, (err) => {
