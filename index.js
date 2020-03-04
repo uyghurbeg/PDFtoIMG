@@ -41,7 +41,7 @@ app.post('/upload', (req, res) => {
     form.parse(req);
     form.on('file', (filename, file) => {
         var newPath = __dirname + '/tmp/' + file.name;
-        fs.copy(file.path, newPath)
+        writeFile(file.path, newPath)
             .then(() => generateThumb(newPath, res));
     });
 })
@@ -55,11 +55,16 @@ function generateThumb(filepath, res) {
     var pdfImage = new PDFImage(filepath);
     pdfImage.convertPage(0)
         .then((imagePath) => {
-        fs.unlink(filepath);
+        var newPath = __dirname + '/tmp/' + imagePath.name;
+        fs.copy(imagePath, newPath)
         res.sendFile(imagePath);
     }, (err) => {
         res.send(err, 500);
     });
+}
+
+function writeFile(srcFile, desFile) {
+        fs.copy(srcFile, desFile)
 }
 
 function clearDir() {
@@ -87,7 +92,7 @@ function readDir() {
         var htmlFoot = '</tr></table></body></html>'
         var htmlBody = ''
         files.forEach( (file) => {
-            htmlBody += '<tr><td>' + file + '</td></tr>'
+            htmlBody += '<tr><td><a href="./' + file +'">'  + file + '</a></td></tr>'
         })
 
         html = htmlHead + htmlBody + htmlFoot;
