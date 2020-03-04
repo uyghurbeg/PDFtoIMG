@@ -51,7 +51,7 @@ app.post('/pdf', (req, res) => {
     generateThumb(filepath, res);
 })
 
-function generateThumb(filepath, req, res) {
+function generateThumb(filepath, res) {
     var pdfImage = new PDFImage(filepath);
     pdfImage.convertPage(0)
         .then((imagePath) => {
