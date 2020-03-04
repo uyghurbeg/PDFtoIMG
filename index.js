@@ -41,7 +41,7 @@ app.post('/upload', (req, res) => {
     form.parse(req);
     form.on('file', (filename, file) => {
         var newPath = __dirname + '/tmp/' + file.name;
-        writeFile(file.path, newPath)
+        fs.copy(srcFile, desFile)
             .then(() => generateThumb(newPath, res));
     });
 })
@@ -55,15 +55,14 @@ function generateThumb(filepath, res) {
     var pdfImage = new PDFImage(filepath);
     pdfImage.convertPage(0)
         .then((imagePath) => {
+        var desFile = __dirname + '/tmp/' + req.body.filename + '.jpg';
+        fs.copy(imagePath, desFile)
         res.sendFile(imagePath);
     }, (err) => {
         res.send(err, 500);
     });
 }
 
-function writeFile(srcFile, desFile) {
-        fs.copy(srcFile, desFile)
-}
 function clearDir() {
     var directory = __dirname + "/tmp"
     fs.readdir(directory, (err, files) => {
