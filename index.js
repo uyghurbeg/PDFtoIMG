@@ -4,6 +4,7 @@ const formidable = require('formidable')
 const bodyParser = require('body-parser')
 const fs = require('fs-extra')
 const path = require('path')
+const http = require('http')
 var PDFImage = require("pdf-image").PDFImage
 
 app.use(express.static('public'))
@@ -27,6 +28,7 @@ app.get('/thumbs', (req, res) => {
 app.get('/upload', (req, res) => {
     res.sendFile(__dirname+ '/pdf.html');
 })
+
 
 //delete request
 app.delete('/clear', () => {
@@ -53,6 +55,7 @@ function generateThumb(filepath, res) {
     var pdfImage = new PDFImage(filepath);
     pdfImage.convertPage(0)
         .then((imagePath) => {
+        fs.unlink(filepath);
         res.sendFile(imagePath);
     }, (err) => {
         res.send(err, 500);
