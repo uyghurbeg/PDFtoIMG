@@ -52,30 +52,30 @@ app.post('/pdf', (req, res) => {
 })
 
 function generateThumb(file, res) {
-    // var pdfImage = new PDFImage(file);
-    // pdfImage.convertPage(0)
-    //     .then((imagePath) => {
-    //     var desFile = __dirname + '/tmp/' + path.basename(imagePath);
-    //     fs.copy(imagePath, desFile)
-    //     res.sendFile(imagePath);
-    // }, (err) => {
-    //     res.send(err, 500);
-    // });
+    var pdfImage = new PDFImage(file);
+    pdfImage.convertPage(0)
+        .then((imagePath) => {
+        var desFile = __dirname + '/tmp/' + path.basename(imagePath);
+        fs.copy(imagePath, desFile)
+        res.sendFile(imagePath);
+    }, (err) => {
+        res.send(err, 500);
+    });
 
-    let opts = {
-        format: 'jpeg',
-        out_dir: path.dirname(file),
-        out_prefix: path.basename(file, path.extname(file)),
-        page: 1
-    }
+    // let opts = {
+    //     format: 'jpeg',
+    //     out_dir: path.dirname(file),
+    //     out_prefix: path.basename(file, path.extname(file)),
+    //     page: 1
+    // }
 
-    pdf.convert(file, opts)
-        .then(() => {
-            res.sendFile(opts.out_dir + "/" + opts.out_prefix + "-1.jpg")
-        })
-        .catch(error => {
-            console.error(error);
-        })
+    // pdf.convert(file, opts)
+    //     .then(() => {
+    //         res.sendFile(opts.out_dir + "/" + opts.out_prefix + "-1.jpg")
+    //     })
+    //     .catch(error => {
+    //         console.error(error);
+    //     })
 }
 
 function clearDir() {
