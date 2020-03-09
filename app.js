@@ -95,32 +95,3 @@ function readDir() {
 app.listen(process.env.PORT || 3000, function () {
     console.log("Express server listening on port %d in %s mode", this.address().port, app.settings.env);
 });
-
-//catch 404 and forward to error handler
-app.use(function(req, res, next) {
-    const err = new Error("Not Found");
-    err.status = 404;
-    next(err);
-  });
-
-  //will print stacktrace
-  if (app.get("env") === "development") {
-    app.use(function(err, req, res) {
-      res.status(err.status || 500);
-      res.render("error", {
-        message: err.message,
-        error: err
-      });
-    });
-  }
-  
-  //production error handler
-  //no stacktraces leaked to user
-  app.use(function(err, req, res) {
-    res.status(err.status || 500);
-    res.render("error", {
-      message: err.message,
-      error: {}
-    });
-  });
-
