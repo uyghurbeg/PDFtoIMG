@@ -1,0 +1,57 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="">
+    <meta name="author" content="Mark Otto, Jacob Thornton, and Bootstrap contributors">
+    <meta name="generator" content="Jekyll v3.8.6">
+    <title>PDF thumb generator</title>
+    <!-- Bootstrap core CSS -->
+    <link href="./bootstrap.min.css" rel="stylesheet" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+		<!-- The main CSS file -->
+		<link href="./style.css" rel="stylesheet" />
+</head>
+
+<body class="bg-light">
+    <main role="main" class="container">
+        <div class="d-flex align-items-center p-3 my-3 text-white-50 bg-purple rounded shadow-sm">
+            <img class="mr-3" src="./bootstrap-outline.svg" alt="" width="48" height="48">
+            <div class="lh-100">
+                <h6 class="mb-0 text-white lh-100">PDF Thumb generator</h6>
+                <a class="text-white" href="/thumbs">You can check the thumbs from here</a>
+            </div>
+        </div>
+
+        <div class="my-3 p-3 bg-white rounded shadow-sm">
+            <h6 class="border-bottom border-gray pb-2 mb-0">Please select pdf file</h6>
+            <div class="media text-muted pt-3">
+		<form id="upload" method="post" action="/upload" enctype="multipart/form-data">
+		    <div id="drop">
+		        Drop Here
+
+		        <a>Browse</a>
+		        <input type="file" name="file" multiple />
+		    </div>
+		    <ul>
+		        <!-- The file uploads will be shown here -->
+		    </ul>
+		</form>
+            </div>
+        </div>
+    </main>
+    <!-- JavaScript Includes -->
+    <script src="./js/jquery.min.js"></script>
+    <script src="./js/jquery.knob.js"></script>
+
+    <!-- jQuery File Upload Dependencies -->
+    <script src="./js/jquery.ui.widget.js"></script>
+    <script src="./js/jquery.iframe-transport.js"></script>
+    <script src="./js/jquery.fileupload.js"></script>
+
+    <!-- Our main JS file -->
+    <script src="./js/script.js"></script>
+</body>
+
+</html>

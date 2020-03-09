@@ -11,16 +11,7 @@ app.use(bodyParser.urlencoded({ extended: false }));
 
 //get requests
 app.get('/', (req, res) => {
-    res.sendFile(__dirname+ '/pdf.html');
-})
-
-app.get('/index.html', (req, res) => {
-    res.sendFile(__dirname+ '/pdf.html');
-})
-
-app.get('/files', (req, res) => {
-    readDir()
-    res.sendFile(__dirname + '/files.html');
+    res.sendFile(__dirname + '/upload.html');
 })
 
 app.get('/thumbs', (req, res) => {
@@ -29,9 +20,8 @@ app.get('/thumbs', (req, res) => {
 })
 
 app.get('/upload', (req, res) => {
-    res.sendFile(__dirname+ '/pdf.html');
+    res.sendFile(__dirname + '/upload.html');
 })
-
 
 //delete request
 app.delete('/clear', () => {
@@ -58,7 +48,8 @@ function generateThumb(filepath, res) {
     var pdfImage = new PDFImage(filepath);
     pdfImage.convertPage(0)
         .then((imagePath) => {
-        var desFile = __dirname + '/tmp/' + path.basename(imagePath);
+            var desFile = __dirname + '/tmp/' + path.basename(imagePath);
+                console.log(desFile)
         fs.copy(imagePath, desFile)
         res.sendFile(imagePath);
     }, (err) => {
@@ -108,14 +99,10 @@ app.listen(process.env.PORT || 3000, function () {
 //catch 404 and forward to error handler
 app.use(function(req, res, next) {
     const err = new Error("Not Found");
-  
     err.status = 404;
     next(err);
   });
-  
-  //error handlers
-  
-  //development error handler
+
   //will print stacktrace
   if (app.get("env") === "development") {
     app.use(function(err, req, res) {
