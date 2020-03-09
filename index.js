@@ -66,3 +66,4 @@ app.on('will-quit', function() {
     globalShortcut.unregister('CommandOrControl+S');
   });
 
+module.exports = app;
