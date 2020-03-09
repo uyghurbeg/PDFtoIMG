@@ -1,31 +1,22 @@
-const electron = require("electron")
- 
-  require('./app.js')
-  const { Menu, globalShortcut, BrowserWindow, app  } = require('electron')
-
+const { globalShortcut, BrowserWindow, app  } = require('electron')
+require('./app.js')
 
 let mainWindow;
 
 function createWindow() {
+
   mainWindow = new BrowserWindow({
     autoHideMenuBar: true,
     width: 440,
     height: 680,
+    icon: __dirname + '/build/icon.ico',
+    resizable: false,
     webPreferences: {
       nodeIntegration: true
     }
   });
 
-  const dockMenu = Menu.buildFromTemplate([
-    {
-      label: 'New Upload',
-      click () {   mainWindow.loadURL(`http://localhost:3000/upload`) }
-    }
-  ])
-  
-  app.dock.setMenu(dockMenu)
-
-  
+ 
   mainWindow.loadURL(`http://localhost:3000/`);
   //mainWindow.webContents.openDevTools();
   mainWindow.on("close", () => {
@@ -46,6 +37,9 @@ app.on('ready', () => {
     globalShortcut.register('CommandOrControl+H', () => {
         mainWindow.loadURL(`http://localhost:3000`)
     })
+    globalShortcut.register('CommandOrControl+S', () => {
+      
+  })
 })
   
 
@@ -69,4 +63,6 @@ app.on('will-quit', function() {
     // Unregister a shortcut.
     globalShortcut.unregister('CommandOrControl+N');
     globalShortcut.unregister('CommandOrControl+H');
+    globalShortcut.unregister('CommandOrControl+S');
   });
+

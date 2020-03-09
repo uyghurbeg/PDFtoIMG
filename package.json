@@ -6,7 +6,8 @@
   "author": "uyghurbeg",
   "scripts": {
     "start": "electron .",
-    "nodemon": "nodemon"
+    "nodemon": "nodemon",
+    "package": "electron-packager . --asar --overwrite"
   },
   "engines": {
     "node": "10.x"
@@ -16,10 +17,11 @@
   "dependencies": {
     "body-parser": "^1.19.0",
     "electron": "^8.1.0",
+    "electron-packager": "^14.2.1",
+    "electron-save-file": "^1.0.2",
     "express": "^4.17.1",
     "formidable": "^1.2.2",
     "fs-extra": "^8.1.0",
-    "http": "0.0.0",
     "path": "^0.12.7",
     "pdf-image": "^2.0.0"
   }

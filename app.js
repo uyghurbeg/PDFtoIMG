@@ -4,7 +4,6 @@ const formidable = require('formidable')
 const bodyParser = require('body-parser')
 const fs = require('fs-extra')
 const path = require('path')
-const http = require('http')
 var PDFImage = require("pdf-image").PDFImage
 
 app.use(express.static('public'))
@@ -12,11 +11,11 @@ app.use(bodyParser.urlencoded({ extended: false }));
 
 //get requests
 app.get('/', (req, res) => {
-    res.sendFile(__dirname+ '/index.html');
+    res.sendFile(__dirname+ '/pdf.html');
 })
 
 app.get('/index.html', (req, res) => {
-    res.sendFile(__dirname+ '/index.html');
+    res.sendFile(__dirname+ '/pdf.html');
 })
 
 app.get('/files', (req, res) => {
@@ -137,5 +136,5 @@ app.use(function(req, res, next) {
       error: {}
     });
   });
-  
+
   module.exports = app;
