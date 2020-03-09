@@ -37,9 +37,10 @@ app.post('/upload', (req, res) => {
     var form = new formidable.IncomingForm()
     form.parse(req);
     form.on('file', (filename, file) => {
+        var pagenom = (req.body.pagenom - 1) || 0
         var newPath = __dirname + '/tmp/' + file.name;
         fs.copy(file.path, newPath)
-            .then(() => generateThumb(newPath, res));
+            .then(() => generateThumb(newPath, res, pagenom));
     });
 })
 
@@ -48,9 +49,9 @@ app.post('/pdf', (req, res) => {
     generateThumb(filepath, res);
 })
 
-function generateThumb(filepath, res) {
+function generateThumb(filepath, res, pagenom) {
     var pdfImage = new PDFImage(filepath);
-    pdfImage.convertPage(0)
+    pdfImage.convertPage(pagenom)
         .then((imagePath) => {
         var desFile = __dirname + '/tmp/' + path.basename(imagePath);
         fs.copy(imagePath, desFile)
