@@ -7,6 +7,7 @@
   "scripts": {
     "start": "node app",
     "nodemon": "nodemon",
+    "electron": "electron .",
     "package": "electron-packager . --asar --overwrite"
   },
   "engines": {
