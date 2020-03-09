@@ -5,6 +5,8 @@ const bodyParser = require('body-parser')
 const fs = require('fs-extra')
 const path = require('path')
 var PDFImage = require("pdf-image").PDFImage
+var multer  = require('multer')
+var upload = multer({ dest: 'tmp/' })
 
 app.use(express.static('public'))
 app.use(bodyParser.urlencoded({ extended: false }));
@@ -29,14 +31,9 @@ app.delete('/clear', () => {
 })
 
 //post requests
-app.post('/upload', (req, res) => {
-    var form = new formidable.IncomingForm()
-    form.parse(req);
-    form.on('file', (filename, file) => {
-        var newPath = __dirname + '/tmp/' + file.name;
-        fs.copy(file.path, newPath)
-            .then(() => generateThumb(newPath, res));
-    });
+app.post('/upload', upload.single('file'), (req, res) => {
+    var newPath = __dirname + "/uploads/" + req.file.filename;
+    generateThumb(newPath, res);
 })
 
 app.post('/pdf', (req, res) => {
