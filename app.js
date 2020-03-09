@@ -5,6 +5,8 @@ const bodyParser = require('body-parser')
 const fs = require('fs-extra')
 const path = require('path')
 var PDFImage = require("pdf-image").PDFImage
+const pdf = require('pdf-poppler');
+
 
 app.use(express.static('public'))
 app.use(bodyParser.urlencoded({ extended: false }));
@@ -37,28 +39,43 @@ app.post('/upload', (req, res) => {
     var form = new formidable.IncomingForm()
     form.parse(req);
     form.on('file', (filename, file) => {
-        var pagenom = (req.body.pagenom - 1) || 0
         var newPath = __dirname + '/tmp/' + file.name;
         fs.copy(file.path, newPath)
-            .then(() => generateThumb(newPath, res, pagenom));
+            .then(() => generateThumb(newPath, res));
     });
 })
+
 
 app.post('/pdf', (req, res) => {
     var filepath = __dirname + '/tmp/' + req.body.filename + '.pdf';
     generateThumb(filepath, res);
 })
 
-function generateThumb(filepath, res, pagenom) {
-    var pdfImage = new PDFImage(filepath);
-    pdfImage.convertPage(pagenom)
-        .then((imagePath) => {
-        var desFile = __dirname + '/tmp/' + path.basename(imagePath);
-        fs.copy(imagePath, desFile)
-        res.sendFile(imagePath);
-    }, (err) => {
-        res.send(err, 500);
-    });
+function generateThumb(file, res) {
+    // var pdfImage = new PDFImage(file);
+    // pdfImage.convertPage(0)
+    //     .then((imagePath) => {
+    //     var desFile = __dirname + '/tmp/' + path.basename(imagePath);
+    //     fs.copy(imagePath, desFile)
+    //     res.sendFile(imagePath);
+    // }, (err) => {
+    //     res.send(err, 500);
+    // });
+
+    let opts = {
+        format: 'jpeg',
+        out_dir: path.dirname(file),
+        out_prefix: path.basename(file, path.extname(file)),
+        page: 1
+    }
+
+    pdf.convert(file, opts)
+        .then(() => {
+            res.sendFile(opts.out_dir + "/" + opts.out_prefix + "-1.jpg")
+        })
+        .catch(error => {
+            console.error(error);
+        })
 }
 
 function clearDir() {

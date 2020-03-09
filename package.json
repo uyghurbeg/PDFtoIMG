@@ -24,6 +24,7 @@
     "formidable": "^1.2.2",
     "fs-extra": "^8.1.0",
     "path": "^0.12.7",
-    "pdf-image": "^2.0.0"
+    "pdf-image": "^2.0.0",
+    "pdf-poppler": "^0.2.1"
   }
 }
