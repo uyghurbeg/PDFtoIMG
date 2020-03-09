@@ -34,12 +34,6 @@ app.on('ready', () => {
     const ret = globalShortcut.register('CommandOrControl+N', () => {
         mainWindow.loadURL(`http://localhost:3000/upload`)
     })
-    globalShortcut.register('CommandOrControl+H', () => {
-        mainWindow.loadURL(`http://localhost:3000`)
-    })
-    globalShortcut.register('CommandOrControl+S', () => {
-      
-  })
 })
   
 
@@ -62,7 +56,5 @@ app.on("activate", function() {
 app.on('will-quit', function() {
     // Unregister a shortcut.
     globalShortcut.unregister('CommandOrControl+N');
-    globalShortcut.unregister('CommandOrControl+H');
-    globalShortcut.unregister('CommandOrControl+S');
   });
 

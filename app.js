@@ -52,15 +52,45 @@ app.post('/pdf', (req, res) => {
 })
 
 function generateThumb(file, res) {
-    var pdfImage = new PDFImage(file);
-    pdfImage.convertPage(0)
-        .then((imagePath) => {
-        var desFile = __dirname + '/tmp/' + path.basename(imagePath);
-        fs.copy(imagePath, desFile)
-        res.sendFile(imagePath);
-    }, (err) => {
-        res.send(err, 500);
-    });
+    var isWindows = process.platform === "win32";
+    var isMacOS = process.platform === "darwin";
+    var isLinux = process.platform === "linux";
+
+    if (isMacOS || isLinux) {
+        var pdfImage = new PDFImage(file);
+        pdfImage.convertPage(0)
+            .then((imagePath) => {
+                var desFile = __dirname + '/tmp/' + path.basename(imagePath);
+                fs.copy(imagePath, desFile)
+                res.sendFile(imagePath);
+            }, (err) => {
+                res.send(err, 500);
+        });
+    }
+
+    if (isWindows) {
+        let opts = {
+            format: 'jpeg',
+            out_dir: path.dirname(file),
+            out_prefix: path.basename(file, path.extname(file)),
+            page: 1
+        }
+
+        pdf.convert(file, opts)
+            .then(() => {
+                var thumbPath = opts.out_dir + "/" + opts.out_prefix + "-1.jpg";
+                fs.access(thumbPath, fs.F_OK, (err) => {
+                    if (err) {
+                        thumbPath = opts.out_dir + "/" + opts.out_prefix + "-01.jpg";
+                        res.sendFile(thumbPath)
+                    } 
+                    else res.sendFile(thumbPath)
+                })
+            })
+            .catch(error => {
+                console.error(error);
+            })
+    }    
 }
 
 function clearDir() {
