@@ -5,7 +5,7 @@
   "main": "index.js",
   "author": "uyghurbeg",
   "scripts": {
-    "start": "electron .",
+    "start": "node app",
     "nodemon": "nodemon",
     "package": "electron-packager . --asar --overwrite"
   },
