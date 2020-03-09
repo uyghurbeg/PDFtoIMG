@@ -33,7 +33,17 @@ app.delete('/clear', () => {
 //post requests
 app.post('/upload', upload.single('file'), (req, res) => {
     var newPath = __dirname + "/uploads/" + req.file.filename;
-    generateThumb(newPath, res);
+
+    fs.readFile(req.file.path, function (err, data) {
+        // ...
+        var newPath = __dirname + "/uploads/" + req.file.filename;
+        fs.writeFile(newPath, data)
+            .then(() => {
+                generateThumb(newPath, res);
+        })
+            .catch(err);
+    });
+    
 })
 
 app.post('/pdf', (req, res) => {
