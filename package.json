@@ -6,8 +6,8 @@
   "author": "uyghurbeg",
   "scripts": {
     "start": "node app",
-    "nodemon": "nodemon",
     "electron": "electron .",
+    "nodemon": "nodemon",
     "package": "electron-packager . --asar --overwrite"
   },
   "engines": {
@@ -23,7 +23,6 @@
     "express": "^4.17.1",
     "formidable": "^1.2.2",
     "fs-extra": "^8.1.0",
-    "multer": "^1.4.2",
     "path": "^0.12.7",
     "pdf-image": "^2.0.0"
   }

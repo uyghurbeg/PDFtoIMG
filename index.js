@@ -10,13 +10,14 @@ function createWindow() {
     width: 440,
     height: 680,
     icon: __dirname + '/build/icon.ico',
-    resizable: true,
+    resizable: false,
     webPreferences: {
       nodeIntegration: true
     }
   });
+
  
-  mainWindow.loadURL(`http://localhost:3000/upload.html`);
+  mainWindow.loadURL(`http://localhost:3000/`);
   //mainWindow.webContents.openDevTools();
   mainWindow.on("close", () => {
     mainWindow.webContents.send("stop-server");
@@ -25,6 +26,7 @@ function createWindow() {
     mainWindow = null;
   });
 }
+
 
 app.on('ready', () => {
     createWindow()
@@ -35,9 +37,9 @@ app.on('ready', () => {
     globalShortcut.register('CommandOrControl+H', () => {
         mainWindow.loadURL(`http://localhost:3000`)
     })
-
-    
-    mainWindow.webContents.openDevTools();
+    globalShortcut.register('CommandOrControl+S', () => {
+      
+  })
 })
   
 
@@ -61,5 +63,6 @@ app.on('will-quit', function() {
     // Unregister a shortcut.
     globalShortcut.unregister('CommandOrControl+N');
     globalShortcut.unregister('CommandOrControl+H');
+    globalShortcut.unregister('CommandOrControl+S');
   });
 

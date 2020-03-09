@@ -5,18 +5,20 @@ const bodyParser = require('body-parser')
 const fs = require('fs-extra')
 const path = require('path')
 var PDFImage = require("pdf-image").PDFImage
-var multer  = require('multer')
-var upload = multer({ dest: 'tmp/' })
 
 app.use(express.static('public'))
 app.use(bodyParser.urlencoded({ extended: false }));
 
 //get requests
 app.get('/', (req, res) => {
-    res.sendFile(__dirname + '/upload.html');
+    res.sendFile(__dirname+ '/upload.html');
 })
 
-app.get('/thumbs', (req, res) => {
+app.get('/index.html', (req, res) => {
+    res.sendFile(__dirname+ '/pdf.html');
+})
+
+app.get('/files', (req, res) => {
     readDir()
     res.sendFile(__dirname + '/files.html');
 })
@@ -31,19 +33,14 @@ app.delete('/clear', () => {
 })
 
 //post requests
-app.post('/upload', upload.single('file'), (req, res) => {
-    var newPath = __dirname + "/uploads/" + req.file.filename;
-
-    fs.readFile(req.file.path, function (err, data) {
-        // ...
-        var newPath = __dirname + "/uploads/" + req.file.filename;
-        fs.writeFile(newPath, data)
-            .then(() => {
-                generateThumb(newPath, res);
-        })
-            .catch(err);
+app.post('/upload', (req, res) => {
+    var form = new formidable.IncomingForm()
+    form.parse(req);
+    form.on('file', (filename, file) => {
+        var newPath = __dirname + '/tmp/' + file.name;
+        fs.copy(file.path, newPath)
+            .then(() => generateThumb(newPath, res));
     });
-    
 })
 
 app.post('/pdf', (req, res) => {
@@ -55,8 +52,7 @@ function generateThumb(filepath, res) {
     var pdfImage = new PDFImage(filepath);
     pdfImage.convertPage(0)
         .then((imagePath) => {
-            var desFile = __dirname + '/tmp/' + path.basename(imagePath);
-            console.log(desFile)
+        var desFile = __dirname + '/tmp/' + path.basename(imagePath);
         fs.copy(imagePath, desFile)
         res.sendFile(imagePath);
     }, (err) => {
@@ -106,10 +102,14 @@ app.listen(process.env.PORT || 3000, function () {
 //catch 404 and forward to error handler
 app.use(function(req, res, next) {
     const err = new Error("Not Found");
+  
     err.status = 404;
     next(err);
   });
-
+  
+  //error handlers
+  
+  //development error handler
   //will print stacktrace
   if (app.get("env") === "development") {
     app.use(function(err, req, res) {
@@ -131,3 +131,4 @@ app.use(function(req, res, next) {
     });
   });
 
+  module.exports = app;
