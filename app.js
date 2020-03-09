@@ -61,21 +61,6 @@ function generateThumb(file, res) {
     }, (err) => {
         res.send(err, 500);
     });
-
-    // let opts = {
-    //     format: 'jpeg',
-    //     out_dir: path.dirname(file),
-    //     out_prefix: path.basename(file, path.extname(file)),
-    //     page: 1
-    // }
-
-    // pdf.convert(file, opts)
-    //     .then(() => {
-    //         res.sendFile(opts.out_dir + "/" + opts.out_prefix + "-1.jpg")
-    //     })
-    //     .catch(error => {
-    //         console.error(error);
-    //     })
 }
 
 function clearDir() {
