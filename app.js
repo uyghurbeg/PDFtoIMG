@@ -5,34 +5,19 @@ const bodyParser = require('body-parser')
 const fs = require('fs-extra')
 const path = require('path')
 var PDFImage = require("pdf-image").PDFImage
-<<<<<<< HEAD
 const pdf = require('pdf-poppler');
 
-=======
->>>>>>> Heroku
 
 app.use(express.static('public'))
 app.use(bodyParser.urlencoded({ extended: false }));
 
 //get requests
 app.get('/', (req, res) => {
-<<<<<<< HEAD
     res.sendFile(__dirname+ '/upload.html');
-=======
-    res.sendFile(__dirname+ '/pdf.html');
->>>>>>> Heroku
 })
 
 app.get('/index.html', (req, res) => {
     res.sendFile(__dirname+ '/pdf.html');
-<<<<<<< HEAD
-=======
-})
-
-app.get('/files', (req, res) => {
-    readDir()
-    res.sendFile(__dirname + '/files.html');
->>>>>>> Heroku
 })
 
 app.get('/files', (req, res) => {
@@ -67,7 +52,6 @@ app.post('/pdf', (req, res) => {
     generateThumb(filepath, res);
 })
 
-<<<<<<< HEAD
 function generateThumb(file, res) {
     var isWindows = process.platform === "win32";
     if (isWindows) {
@@ -102,18 +86,6 @@ function generateThumb(file, res) {
                 res.send(err, 500);
         });
     }
-=======
-function generateThumb(filepath, res) {
-    var pdfImage = new PDFImage(filepath);
-    pdfImage.convertPage(0)
-        .then((imagePath) => {
-        var desFile = __dirname + '/tmp/' + path.basename(imagePath);
-        fs.copy(imagePath, desFile)
-        res.sendFile(imagePath);
-    }, (err) => {
-        res.send(err, 500);
-    });
->>>>>>> Heroku
 }
 
 function clearDir() {
