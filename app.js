@@ -5,19 +5,34 @@ const bodyParser = require('body-parser')
 const fs = require('fs-extra')
 const path = require('path')
 var PDFImage = require("pdf-image").PDFImage
+<<<<<<< HEAD
 const pdf = require('pdf-poppler');
 
+=======
+>>>>>>> Heroku
 
 app.use(express.static('public'))
 app.use(bodyParser.urlencoded({ extended: false }));
 
 //get requests
 app.get('/', (req, res) => {
+<<<<<<< HEAD
     res.sendFile(__dirname+ '/upload.html');
+=======
+    res.sendFile(__dirname+ '/pdf.html');
+>>>>>>> Heroku
 })
 
 app.get('/index.html', (req, res) => {
     res.sendFile(__dirname+ '/pdf.html');
+<<<<<<< HEAD
+=======
+})
+
+app.get('/files', (req, res) => {
+    readDir()
+    res.sendFile(__dirname + '/files.html');
+>>>>>>> Heroku
 })
 
 app.get('/files', (req, res) => {
@@ -26,8 +41,9 @@ app.get('/files', (req, res) => {
 })
 
 app.get('/upload', (req, res) => {
-    res.sendFile(__dirname + '/upload.html');
+    res.sendFile(__dirname+ '/pdf.html');
 })
+
 
 //delete request
 app.delete('/clear', () => {
@@ -51,6 +67,7 @@ app.post('/pdf', (req, res) => {
     generateThumb(filepath, res);
 })
 
+<<<<<<< HEAD
 function generateThumb(file, res) {
     var isWindows = process.platform === "win32";
     if (isWindows) {
@@ -85,6 +102,18 @@ function generateThumb(file, res) {
                 res.send(err, 500);
         });
     }
+=======
+function generateThumb(filepath, res) {
+    var pdfImage = new PDFImage(filepath);
+    pdfImage.convertPage(0)
+        .then((imagePath) => {
+        var desFile = __dirname + '/tmp/' + path.basename(imagePath);
+        fs.copy(imagePath, desFile)
+        res.sendFile(imagePath);
+    }, (err) => {
+        res.send(err, 500);
+    });
+>>>>>>> Heroku
 }
 
 function clearDir() {
@@ -129,10 +158,14 @@ app.listen(process.env.PORT || 3000, function () {
 //catch 404 and forward to error handler
 app.use(function(req, res, next) {
     const err = new Error("Not Found");
+  
     err.status = 404;
     next(err);
   });
-
+  
+  //error handlers
+  
+  //development error handler
   //will print stacktrace
   if (app.get("env") === "development") {
     app.use(function(err, req, res) {
@@ -154,3 +187,4 @@ app.use(function(req, res, next) {
     });
   });
 
+  module.exports = app;

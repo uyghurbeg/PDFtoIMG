@@ -10,13 +10,14 @@ function createWindow() {
     width: 440,
     height: 680,
     icon: __dirname + '/build/icon.ico',
-    resizable: true,
+    resizable: false,
     webPreferences: {
       nodeIntegration: true
     }
   });
+
  
-  mainWindow.loadURL(`http://localhost:3000/upload.html`);
+  mainWindow.loadURL(`http://localhost:3000/`);
   //mainWindow.webContents.openDevTools();
   mainWindow.on("close", () => {
     mainWindow.webContents.send("stop-server");
@@ -26,12 +27,22 @@ function createWindow() {
   });
 }
 
+
 app.on('ready', () => {
     createWindow()
     // Register a 'CommandOrControl+X' shortcut listener.
     const ret = globalShortcut.register('CommandOrControl+N', () => {
         mainWindow.loadURL(`http://localhost:3000/upload`)
     })
+<<<<<<< HEAD
+=======
+    globalShortcut.register('CommandOrControl+H', () => {
+        mainWindow.loadURL(`http://localhost:3000`)
+    })
+    globalShortcut.register('CommandOrControl+S', () => {
+      
+  })
+>>>>>>> Heroku
 })
   
 
@@ -54,5 +65,11 @@ app.on("activate", function() {
 app.on('will-quit', function() {
     // Unregister a shortcut.
     globalShortcut.unregister('CommandOrControl+N');
+<<<<<<< HEAD
+=======
+    globalShortcut.unregister('CommandOrControl+H');
+    globalShortcut.unregister('CommandOrControl+S');
+>>>>>>> Heroku
   });
 
+module.exports = app;
