@@ -10,14 +10,13 @@ function createWindow() {
     width: 440,
     height: 680,
     icon: __dirname + '/build/icon.ico',
-    resizable: false,
+    resizable: true,
     webPreferences: {
       nodeIntegration: true
     }
   });
-
  
-  mainWindow.loadURL(`http://localhost:3000/`);
+  mainWindow.loadURL(`http://localhost:3000/upload.html`);
   //mainWindow.webContents.openDevTools();
   mainWindow.on("close", () => {
     mainWindow.webContents.send("stop-server");
@@ -26,7 +25,6 @@ function createWindow() {
     mainWindow = null;
   });
 }
-
 
 app.on('ready', () => {
     createWindow()

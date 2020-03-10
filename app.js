@@ -129,14 +129,10 @@ app.listen(process.env.PORT || 3000, function () {
 //catch 404 and forward to error handler
 app.use(function(req, res, next) {
     const err = new Error("Not Found");
-  
     err.status = 404;
     next(err);
   });
-  
-  //error handlers
-  
-  //development error handler
+
   //will print stacktrace
   if (app.get("env") === "development") {
     app.use(function(err, req, res) {
@@ -158,4 +154,3 @@ app.use(function(req, res, next) {
     });
   });
 
-  module.exports = app;
