@@ -27,7 +27,6 @@ function createWindow() {
   });
 }
 
-
 app.on('ready', () => {
     createWindow()
     // Register a 'CommandOrControl+X' shortcut listener.
