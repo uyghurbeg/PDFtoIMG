@@ -17,17 +17,13 @@ app.get('/', (req, res) => {
     res.sendFile(__dirname+ '/upload.html');
 })
 
-app.get('/index.html', (req, res) => {
-    res.sendFile(__dirname+ '/pdf.html');
-})
-
 app.get('/files', (req, res) => {
     readDir()
     res.sendFile(__dirname + '/files.html');
 })
 
 app.get('/upload', (req, res) => {
-    res.sendFile(__dirname+ '/pdf.html');
+    res.sendFile(__dirname+ '/upload.html');
 })
 
 
@@ -38,12 +34,11 @@ app.delete('/clear', () => {
 
 //post requests
 app.post('/upload', (req, res) => {
+    console.log('upload begin')
     var form = new formidable.IncomingForm()
     form.parse(req);
     form.on('file', (filename, file) => {
-        var newPath = __dirname + '/tmp/' + file.name;
-        fs.copy(file.path, newPath)
-            .then(() => generateThumb(newPath, res));
+        generateThumb(file.path, res)
     });
 })
 
@@ -54,9 +49,11 @@ app.post('/pdf', (req, res) => {
 })
 
 function generateThumb(file, res) {
+    console.log('Thumb function ready')
     var downloadFolder = downloadsFolder();
     var isWindows = process.platform === "win32";
     if (isWindows) {
+        console.log('I am win')
         let opts = {
             format: 'jpeg',
             out_dir: downloadFolder,
@@ -66,15 +63,19 @@ function generateThumb(file, res) {
 
         pdf.convert(file, opts)
             .then(() => {
+                console.log('I started convert thumb')
                 var thumbPath = opts.out_dir + "/" + opts.out_prefix + "-1.jpg";
                 fs.access(thumbPath, fs.F_OK, (err) => {
+                    console.log("first err :" + err)
                     if (err) {
+                    console.log("second err :" + err)
                         thumbPath = opts.out_dir + "/" + opts.out_prefix + "-01.jpg";
                         res.sendFile(thumbPath)
                     } else res.sendFile(thumbPath)
                 })
             })
             .catch(error => {
+                console.log('thum failed')
                 console.error(error);
             })
     } else {

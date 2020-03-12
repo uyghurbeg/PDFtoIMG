@@ -10,18 +10,19 @@ function createWindow() {
     width: 440,
     height: 680,
     icon: __dirname + '/build/icon.ico',
-    resizable: false,
+    resizable: true,
     webPreferences: {
       nodeIntegration: true
     }
   });
 
- 
+   mainWindow.webContents.openDevTools()
+
   mainWindow.loadURL(`http://localhost:3000/`);
-  //mainWindow.webContents.openDevTools();
   mainWindow.on("close", () => {
     mainWindow.webContents.send("stop-server");
   });
+
   mainWindow.on("closed", () => {
     mainWindow = null;
   });
