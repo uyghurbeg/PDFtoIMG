@@ -6,6 +6,7 @@ const fs = require('fs-extra')
 const path = require('path')
 var PDFImage = require("pdf-image").PDFImage
 const pdf = require('pdf-poppler');
+const downloadsFolder = require('downloads-folder');
 
 
 app.use(express.static('public'))
@@ -53,11 +54,12 @@ app.post('/pdf', (req, res) => {
 })
 
 function generateThumb(file, res) {
+    var downloadFolder = downloadsFolder();
     var isWindows = process.platform === "win32";
     if (isWindows) {
         let opts = {
             format: 'jpeg',
-            out_dir: path.dirname(file),
+            out_dir: downloadFolder,
             out_prefix: path.basename(file, path.extname(file)),
             page: 1
         }
@@ -79,7 +81,7 @@ function generateThumb(file, res) {
         var pdfImage = new PDFImage(file);
         pdfImage.convertPage(0)
             .then((imagePath) => {
-                var desFile = __dirname + '/tmp/' + path.basename(imagePath);
+                var desFile = downloadFolder + '/' + path.basename(imagePath);
                 fs.copy(imagePath, desFile)
                 res.sendFile(imagePath);
             }, (err) => {
